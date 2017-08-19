@@ -1,0 +1,10 @@
+{
+  "name": "npm-to-github",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "",
+    "build": ""
+  },
+  "devDependencies": {}
+}

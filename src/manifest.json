@@ -1,0 +1,23 @@
+{
+  "name": "Npm to GitHub",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Redirect npm to github",
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "include_globs":  ["https://www.google.*/*"],
+      "run_at": "document_end",
+      "js": ["google-search.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "permissions": ["tabs", "storage", "https://registry.npmjs.org/*", "https://www.npmjs.com/package/*"]
+}
