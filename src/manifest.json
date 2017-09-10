@@ -12,7 +12,7 @@
       "matches": ["https://*/*"],
       "include_globs":  ["https://www.google.*/*"],
       "run_at": "document_end",
-      "js": ["google-search.js"]
+      "js": ["content.js"]
     }
   ],
   "background": {
