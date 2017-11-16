@@ -70,16 +70,3 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
   chrome.tabs.update(tab.id, { url: githubUrl })
 })
-
-
-// setTimeout(() => {
-//   chrome.tabs.query({ url: 'chrome://extensions/' }, ([ extensionTab ]) => {
-//     if (!extensionTab) {
-//       chrome.tabs.create({ url: 'chrome://extensions/', active: false }, (extensionTab) => {
-//         chrome.tabs.reload(extensionTab.id)
-//       })
-//     } else {
-//       chrome.tabs.reload(extensionTab.id)
-//     }
-//   })
-// }, 15000)
