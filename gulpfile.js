@@ -1,5 +1,5 @@
 import gulp from 'gulp'
-import webpack from 'webpack-stream'
+import webpackStream from 'webpack-stream'
 import named from 'vinyl-named'
 import del from 'del'
 import changed from 'gulp-changed'
@@ -8,9 +8,11 @@ import moduleImporter from 'sass-module-importer'
 import notify from 'gulp-notify'
 import jeditor from 'gulp-json-editor'
 import addSrc from 'gulp-add-src'
+import gulpif from 'gulp-if'
 import io from 'socket.io'
 
 const WEBSOCKET_PORT = 8080
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 const paths = {
   scripts: [
@@ -51,7 +53,6 @@ const webpackConfig = {
 		],
 	},
   // plugins: [
-  //   new webpack.optimize.ModuleConcatenationPlugin(),
   // ],
   resolve: {
     modules: ['node_modules', 'src'],
@@ -73,9 +74,9 @@ function addAutoreloadScript(manifestJson) {
 
 function scripts() {
   return gulp.src(paths.scripts, { allowEmpty: true })
-    .pipe(addSrc('utils/autoreload.js')) // TODO add gulpIF
+    .pipe(gulpif(!IS_PRODUCTION, addSrc('utils/autoreload.js')))
     .pipe(named())
-    .pipe(webpack(webpackConfig))
+    .pipe(webpackStream(webpackConfig))
     .on('error', notify.onError({
       title: 'Error compiling scripts!',
       message: 'Error compiling scripts!',
@@ -97,8 +98,7 @@ function markup() {
 
 function manifest() {
   return gulp.src(paths.manifest)
-    .pipe(changed('build'))
-    .pipe(jeditor(addAutoreloadScript)) // TODO add gulpIf
+    .pipe(gulpif(!IS_PRODUCTION, jeditor(addAutoreloadScript)))
     .pipe(gulp.dest('build'))
 }
 
