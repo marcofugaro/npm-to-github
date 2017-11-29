@@ -122,13 +122,16 @@ function clean() {
 
 function watch() {
   const socket = io.listen(WEBSOCKET_PORT)
-  const triggerFileChange = () => socket.emit('file changed')
+  const triggerFileChange = (done) => {
+    socket.emit('file changed')
+    done()
+  }
 
-  gulp.watch('src/**/*.js', scripts, triggerFileChange)
-  gulp.watch('src/**/*.scss', styles, triggerFileChange)
-  gulp.watch(paths.manifest, manifest, triggerFileChange)
-  gulp.watch(paths.images, images, triggerFileChange)
-  gulp.watch(paths.markup, markup, triggerFileChange)
+  gulp.watch('src/**/*.js', gulp.series(scripts, triggerFileChange))
+  gulp.watch('src/**/*.scss', gulp.series(styles, triggerFileChange))
+  gulp.watch(paths.manifest, gulp.series(manifest, triggerFileChange))
+  gulp.watch(paths.images, gulp.series(images, triggerFileChange))
+  gulp.watch(paths.markup, gulp.series(markup, triggerFileChange))
 }
 
 gulp.task('default', gulp.series(clean, gulp.parallel(scripts, styles, markup, images, manifest)))
