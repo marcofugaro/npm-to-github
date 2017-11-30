@@ -10,8 +10,10 @@ import jeditor from 'gulp-json-editor'
 import addSrc from 'gulp-add-src'
 import gulpif from 'gulp-if'
 import io from 'socket.io'
+import dotenv from 'dotenv'
+import Dotenv from 'dotenv-webpack'
+dotenv.config()
 
-const WEBSOCKET_PORT = 8080
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 const paths = {
@@ -52,8 +54,9 @@ const webpackConfig = {
 			},
 		],
 	},
-  // plugins: [
-  // ],
+  plugins: [
+    new Dotenv(),
+  ],
   resolve: {
     modules: ['node_modules', 'src'],
   },
@@ -121,7 +124,7 @@ function clean() {
 }
 
 function watch() {
-  const socket = io.listen(WEBSOCKET_PORT)
+  const socket = io.listen(process.env.WEBSOCKET_PORT)
   const triggerFileChange = (done) => {
     socket.emit('file changed')
     done()

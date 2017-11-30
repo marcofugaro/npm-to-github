@@ -14,8 +14,5 @@ function reloadExtension() {
   })
 }
 
-// setTimeout(reloadExtension, 15000)
-
-const WEBSOCKET_PORT = 8080
-const socket = io(`http://localhost:${WEBSOCKET_PORT}`)
+const socket = io(`http://localhost:${process.env.WEBSOCKET_PORT}`)
 socket.on('file changed', reloadExtension)
