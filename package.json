@@ -20,7 +20,10 @@
 	"engines": {
 		"node": ">=8.6"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"get-package-github-url": "^1.0.3",
+		"promisify-dom-selector": "^1.0.1"
+	},
 	"devDependencies": {
 		"@std/esm": "^0.15.0",
 		"ava": "^0.23.0",

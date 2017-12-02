@@ -1,72 +1,7 @@
-// returns a promise which resolves when the element appears in the dom
-function promisifyDOMSelector(selector, context = document) {
-  return (queryString) => {
-    return new Promise((resolve) => {
-      // check if there is already the element, if yes resolve and return
-      const targetNode = selector.call(context, queryString)
-      if (targetNode) {
-        return resolve(targetNode)
-      }
-
-      // else watch for the dom element changes
-      const attemptSelection = new MutationObserver((mutations, observer) => {
-        const targetNode = selector.call(context, queryString)
-        if (!targetNode)
-          return
-
-        observer.disconnect()
-        resolve(targetNode)
-      })
-      attemptSelection.observe(context === document ? document.body : context, {
-        childList: true,
-        subtree: true,
-      })
-    })
-  }
-}
+import promisifyDOMSelector from 'promisify-dom-selector'
+import getPackageGithubUrl from 'get-package-github-url'
 
 const pGetElementById = promisifyDOMSelector(document.getElementById)
-
-async function getGithubRepoUrl(packageName) {
-  const { repository } = await fetch(`https://registry.npmjs.org/${packageName}`)
-    .then((res) => res.json())
-
-  if (!repository || repository.type !== 'git')
-    return null
-
-  let { url } = repository
-
-  if (url.startsWith('git+')) {
-    url = url.slice(4)
-  }
-
-  if (url.endsWith('.git')) {
-    url = url.slice(0, -4)
-  }
-
-  if (url.startsWith('git://')) {
-    url = url.slice('git://'.length)
-  }
-
-  if (url.startsWith('ssh://')) {
-    url = url.slice('ssh://'.length)
-  }
-
-  if (url.startsWith('git@github.com:')) {
-    url = `github.com/${url.slice('git@github.com:'.length)}`
-  }
-
-  if (url.startsWith('git@github.com/')) {
-    url = `github.com/${url.slice('git@github.com/'.length)}`
-  }
-
-  // finally add the correct protocol
-  if (!url.startsWith('https://')) {
-    url = `https://${url}`
-  }
-
-  return url
-}
 
 function replaceNpmUrls(resultContainer) {
   const npmPackageUrl = 'https://www.npmjs.com/package/'
@@ -76,7 +11,7 @@ function replaceNpmUrls(resultContainer) {
     const npmUrl = el.getAttribute('href')
     const packageName = npmUrl.slice(npmPackageUrl.length)
 
-    const githubUrl = await getGithubRepoUrl(packageName)
+    const githubUrl = await getPackageGithubUrl(packageName)
     if (!githubUrl)
       return
 
