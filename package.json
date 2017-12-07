@@ -14,19 +14,17 @@
 		"build": "NODE_ENV=production gulp --require @std/esm",
 		"test": "ava"
 	},
-	"@std/esm": {
-		"esm": "all"
-	},
+	"@std/esm": "all",
 	"engines": {
 		"node": ">=8.6"
 	},
 	"dependencies": {
-		"get-package-github-url": "^1.0.3",
+		"get-package-github-url": "^1.0.4",
 		"promisify-dom-selector": "^1.0.1"
 	},
 	"devDependencies": {
 		"@std/esm": "^0.15.0",
-		"ava": "^0.23.0",
+		"ava": "^0.24.0",
 		"babel-loader": "^7.1.2",
 		"babel-plugin-lodash": "^3.3.2",
 		"babel-plugin-transform-class-properties": "^6.24.1",
