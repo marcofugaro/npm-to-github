@@ -1,26 +1,13 @@
 import getPackageGithubUrl from 'get-package-github-url'
-
-// TODO use pify
-const promisifiedChromeStorage = {
-  get(optionsRequested) {
-    return new Promise((resolve) => {
-      chrome.storage.sync.get(optionsRequested, (options) => resolve(options))
-    })
-  },
-
-  set(options) {
-    return new Promise((resolve) => {
-      chrome.storage.sync.set(options, resolve)
-    })
-  },
-}
+import ChromePromise from 'chrome-promise'
+const chromep = new ChromePromise()
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   const npmPackageUrl = 'https://www.npmjs.com/package/'
   if (!changeInfo.url || !changeInfo.url.startsWith(npmPackageUrl))
     return
 
-  const { urlRedirect } = await promisifiedChromeStorage.get({ urlRedirect: true })
+  const { urlRedirect } = await chromep.storage.sync.get({ urlRedirect: true })
   if (!urlRedirect)
     return
 
