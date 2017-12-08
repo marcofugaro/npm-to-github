@@ -1,6 +1,10 @@
 import ChromePromise from 'chrome-promise'
 const chromep = new ChromePromise()
 
+const OPTIONS_DEFAULTS = {
+  urlRedirect: true,
+}
+
 function saveOption(e) {
   const optionNode = e.currentTarget
   const optionKey = optionNode.name
@@ -11,12 +15,12 @@ function saveOption(e) {
 }
 
 async function restoreOptions() {
-  const options = await chromep.storage.sync.get({ urlRedirect: true })
+  const options = await chromep.storage.sync.get(OPTIONS_DEFAULTS)
 
   Object.keys(options).forEach((option) => {
     const optionNode = document.querySelector(`input[name="${option}"]`)
 
-    switch(optionNode.type) {
+    switch (optionNode.type) {
       case 'radio':
         const targetRadio = document.querySelector(`input[name="${option}"][value="${options[option]}"]`)
         if (targetRadio) {

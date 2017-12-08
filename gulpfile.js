@@ -8,6 +8,7 @@ import moduleImporter from 'sass-module-importer'
 import notify from 'gulp-notify'
 import jeditor from 'gulp-json-editor'
 import addSrc from 'gulp-add-src'
+import eslint from 'gulp-eslint'
 import gulpif from 'gulp-if'
 import io from 'socket.io'
 import dotenv from 'dotenv'
@@ -87,6 +88,12 @@ function scripts() {
     .pipe(gulp.dest('build'))
 }
 
+function lintScripts() {
+  return gulp.src(paths.scripts, { allowEmpty: true })
+    .pipe(eslint())
+    .pipe(eslint.format('pretty'))
+}
+
 function images() {
   return gulp.src(paths.images)
     .pipe(changed('build/images'))
@@ -130,13 +137,13 @@ function watch() {
     done()
   }
 
-  gulp.watch('src/**/*.js', gulp.series(scripts, triggerFileChange))
+  gulp.watch('src/**/*.js', gulp.parallel(gulp.series(scripts, triggerFileChange), lintScripts))
   gulp.watch('src/**/*.scss', gulp.series(styles, triggerFileChange))
   gulp.watch(paths.manifest, gulp.series(manifest, triggerFileChange))
   gulp.watch(paths.images, gulp.series(images, triggerFileChange))
   gulp.watch(paths.markup, gulp.series(markup, triggerFileChange))
 }
 
-gulp.task('default', gulp.series(clean, gulp.parallel(scripts, styles, markup, images, manifest)))
+gulp.task('default', gulp.series(clean, gulp.parallel(scripts, lintScripts, styles, markup, images, manifest)))
 
 gulp.task('dev', gulp.series('default', watch))

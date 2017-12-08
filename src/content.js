@@ -21,8 +21,6 @@ function replaceNpmUrls(resultContainer) {
     const npmUrlNodes = [...resultContainer.querySelectorAll('cite')].filter((el) => el.textContent === npmUrl)
     npmUrlNodes.forEach((el) => { el.textContent = githubUrl })
 
-    el.style.background = 'red'
-
     // re-update the link each time google plays with it and changes it
     // this is done to prevent the "Redirect notice" when you open the link in a new tab
     const hrefObserver = new MutationObserver(() => {
