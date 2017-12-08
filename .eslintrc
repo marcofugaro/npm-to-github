@@ -3,5 +3,6 @@
   "plugins": ["babel"],
   "rules": {
     "semi": "off",
-  }
+    "no-unused-vars": "error"
+  },
 }
