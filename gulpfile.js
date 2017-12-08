@@ -13,9 +13,11 @@ import gulpif from 'gulp-if'
 import io from 'socket.io'
 import dotenv from 'dotenv'
 import Dotenv from 'dotenv-webpack'
+import zip from 'gulp-zip'
+import pkg from './package.json'
 dotenv.config()
 
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+const IS_PRODUCTION = !process.argv.includes('dev')
 
 const paths = {
   scripts: [
@@ -144,6 +146,18 @@ function watch() {
   gulp.watch(paths.markup, gulp.series(markup, triggerFileChange))
 }
 
-gulp.task('default', gulp.series(clean, gulp.parallel(scripts, lintScripts, styles, markup, images, manifest)))
 
-gulp.task('dev', gulp.series('default', watch))
+function zipFiles() {
+  return gulp.src('build/**/*')
+    .pipe(zip(`${pkg.name}.zip`))
+    .pipe(gulp.dest('build'))
+}
+function cleanZippedFiles() {
+  return del(['build/*', '!build/*.zip'])
+}
+const bundle = gulp.series(zipFiles, cleanZippedFiles)
+
+
+gulp.task('build', gulp.series(clean, gulp.parallel(scripts, lintScripts, styles, markup, images, manifest)))
+gulp.task('dev', gulp.series('build', watch))
+gulp.task('bundle', gulp.series('build', bundle))
