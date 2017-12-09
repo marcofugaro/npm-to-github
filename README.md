@@ -6,7 +6,7 @@
 
 We js developers all do it, search for a package, npm results come up first, we click on them, go on npmjs.com and immediately click on the github link.
 
-This extension replaces all the npm links in the search result with github links, so you don't have to do this process ever again.
+This extension replaces all the npm links in the google search results with github links, so you don't have to do this process ever again.
 
 It also optionally redirects all `https://www.npmjs.com/package/` urls to github.
 
