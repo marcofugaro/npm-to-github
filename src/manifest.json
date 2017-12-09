@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "Redirect npm to github",
+  "author": "@marco_fugaro",
+  "homepage_url": "https://github.com/marcofugaro/npm-to-github",
+  "icons": {
+		"128": "images/icon.png"
+	},
   "options_ui": {
     "chrome_style": true,
     "page": "options.html"
