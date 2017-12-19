@@ -10,6 +10,13 @@ This extension replaces all the npm links in the google search results with gith
 
 It also optionally redirects all `https://www.npmjs.com/package/` urls to github.
 
+## FAQ
+
+#### Is this extension also available for Firefox?
+Not for now, but a PR which replaces the chrome apis with the [WebExtension APIs](https://github.com/mozilla/webextension-polyfill) is welcome.
+
+For now you can use [this](https://addons.mozilla.org/en-US/firefox/addon/chrome-store-foxified/) to enable installing Chrome extensions in Firefox.
+
 ## License
 
 MIT © [Marco Fugaro](https://github.com/marcofugaro)
