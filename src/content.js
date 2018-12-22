@@ -16,7 +16,9 @@ function replaceNpmUrls(resultContainer) {
       return
 
     el.setAttribute('href', githubUrl)
-    el.textContent = el.textContent.replace(' - npm', ' - GitHub')
+    const title = el.querySelector('h3') || el
+    title.textContent = title.textContent.replace(' - npm', ' - GitHub')
+
 
     const npmUrlNodes = [...resultContainer.querySelectorAll('cite')].filter((el) => el.textContent === npmUrl)
     npmUrlNodes.forEach((el) => { el.textContent = githubUrl })
