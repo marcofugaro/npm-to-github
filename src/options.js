@@ -1,5 +1,4 @@
-import ChromePromise from 'chrome-promise'
-const chromep = new ChromePromise()
+import browser from 'webextension-polyfill'
 
 const OPTIONS_DEFAULTS = {
   urlRedirect: true,
@@ -11,18 +10,20 @@ function saveOption(e) {
 
   const optionValue = optionNode.type === 'checkbox' ? optionNode.checked : optionNode.value
 
-  chromep.storage.sync.set({ [optionKey]: optionValue })
+  browser.storage.sync.set({ [optionKey]: optionValue })
 }
 
 async function restoreOptions() {
-  const options = await chromep.storage.sync.get(OPTIONS_DEFAULTS)
+  const options = await browser.storage.sync.get(OPTIONS_DEFAULTS)
 
-  Object.keys(options).forEach((option) => {
+  Object.keys(options).forEach(option => {
     const optionNode = document.querySelector(`input[name="${option}"]`)
 
     switch (optionNode.type) {
       case 'radio':
-        const targetRadio = document.querySelector(`input[name="${option}"][value="${options[option]}"]`)
+        const targetRadio = document.querySelector(
+          `input[name="${option}"][value="${options[option]}"]`,
+        )
         if (targetRadio) {
           targetRadio.checked = true
         }
@@ -36,8 +37,7 @@ async function restoreOptions() {
   })
 }
 
-
 document.addEventListener('DOMContentLoaded', restoreOptions)
 
 const options = [...document.querySelectorAll('input, select')]
-options.forEach((el) => el.addEventListener('change', saveOption))
+options.forEach(el => el.addEventListener('change', saveOption))

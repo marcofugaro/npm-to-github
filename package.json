@@ -1,29 +1,33 @@
 {
-	"name": "npm-to-github",
-	"version": "1.0.1",
-	"description": "Redirect npm to github",
-	"license": "MIT",
-	"repository": "marcofugaro/npm-to-github",
-	"author": {
-		"name": "Marco Fugaro",
-		"email": "marco.fugaro@gmail.com",
-		"url": "marcofugaro.it"
-	},
+  "name": "npm-to-github",
+  "version": "1.0.2",
+  "description": "Redirect npm to github",
+  "license": "MIT",
+  "repository": "marcofugaro/npm-to-github",
+  "author": {
+    "name": "Marco Fugaro",
+    "email": "marco.fugaro@gmail.com",
+    "url": "marcofugaro.it"
+  },
   "scripts": {
     "postinstall": "check-node-version --package",
     "start": "NODE_ENV=development gulp dev --require @std/esm",
     "build": "NODE_ENV=production gulp build --require @std/esm",
     "bundle": "NODE_ENV=production gulp bundle --require @std/esm"
   },
-	"@std/esm": "all",
-	"engines": {
-		"node": ">=8.6"
-	},
-	"dependencies": {
-		"chrome-promise": "^2.1.1",
-		"get-package-github-url": "^1.0.5",
-		"promisify-dom-selector": "^1.0.1"
-	},
+  "@std/esm": "all",
+  "browserslist": [
+    "last 1 Chrome version",
+    "last 1 Firefox version"
+  ],
+  "engines": {
+    "node": ">=8.6"
+  },
+  "dependencies": {
+    "get-package-github-url": "^1.0.5",
+    "promisify-dom-selector": "^1.0.1",
+    "webextension-polyfill": "^0.3.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
