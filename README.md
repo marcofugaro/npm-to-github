@@ -5,8 +5,7 @@
 ## Install
 
 #### [Chrome extension](https://chrome.google.com/webstore/detail/npm-to-github/mmcoakfbchcckehhnpngpbmkjbpbmlng)
-
-#### [Firefox add-on]()
+#### [Firefox add-on](https://addons.mozilla.org/it/firefox/addon/npm-to-github/)
 
 We js developers all do it, search for a package, npm results come up first, we click on them, go on npmjs.com and immediately click on the github link.
 
