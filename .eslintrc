@@ -1,8 +1,14 @@
 {
-  "parser": "babel-eslint",
-  "plugins": ["babel"],
-  "rules": {
-    "semi": "off",
-    "no-unused-vars": "error"
+  "extends": "eslint-config-accurapp",
+  "env": {
+    "browser": true
   },
+  "rules": {
+    "generator-star-spacing": "off",
+    "no-multiple-empty-lines": "off",
+    "no-bitwise": "off",
+    "no-useless-escape": "off",
+    "react/jsx-no-bind": "off",
+    "react/no-unknown-property": ["warn", {"ignore": ["class", "for"]}]
+  }
 }

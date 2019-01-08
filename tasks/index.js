@@ -1,6 +1,5 @@
 export { clean } from './clean'
 export { scripts } from './scripts'
-export { lintScripts } from './lintScripts'
 export { styles } from './styles'
 export { markup } from './markup'
 export { images } from './images'

@@ -18,6 +18,6 @@ function addAutoreloadScript(manifestJson) {
 
 export function manifest() {
   return gulp.src(paths.manifest)
-    .pipe(gulpif(!global.IS_PRODUCTION, jeditor(addAutoreloadScript)))
+    .pipe(gulpif(process.env.NODE_ENV === 'development', jeditor(addAutoreloadScript)))
     .pipe(gulp.dest('build'))
 }
