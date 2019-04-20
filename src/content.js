@@ -1,7 +1,13 @@
 import promisifyDOMSelector from 'promisify-dom-selector'
-import getPackageGithubUrl from 'get-package-github-url'
+import browser from 'webextension-polyfill'
 
 const pGetElementById = promisifyDOMSelector(document.getElementById)
+
+// Do the npmjs.com request in the background script to avoid CORB.
+// In a more normal situation it would have been backgroundFetch
+async function backgroundGetPackageGithubUrl(packageName) {
+  return browser.runtime.sendMessage({ packageName })
+}
 
 function replaceNpmUrls(resultContainer) {
   const npmPackageUrl = 'https://www.npmjs.com/package/'
@@ -9,9 +15,14 @@ function replaceNpmUrls(resultContainer) {
 
   npmLinks.forEach(async link => {
     const npmUrl = link.getAttribute('href')
-    const packageName = npmUrl.slice(npmPackageUrl.length)
+    let packageName = npmUrl.slice(npmPackageUrl.length)
 
-    const githubUrl = await getPackageGithubUrl(packageName)
+    // remove the query options
+    if (packageName.includes('?')) {
+      packageName = packageName.slice(0, packageName.indexOf('?'))
+    }
+
+    const githubUrl = await backgroundGetPackageGithubUrl(packageName)
     if (!githubUrl) {
       return
     }

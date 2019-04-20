@@ -20,3 +20,9 @@ browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
   browser.tabs.update(tab.id, { url: githubUrl })
 })
+
+// Respond to the backgroundGetPackageGithubUrl form the content script
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  const { packageName } = request
+  return getPackageGithubUrl(packageName)
+})
